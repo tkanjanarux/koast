@@ -27,7 +27,6 @@ exports.makeS3FileUploader = function (options) {
       ACL: options.acl,
       ContentType: file.type
     };
-    console.log('S3 Params:', params);
     s3.putObject(params, function (err) {
       if (err) {
         throw err;
