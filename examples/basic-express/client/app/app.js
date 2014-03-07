@@ -57,6 +57,22 @@ angular.module('sampleKoastClientApp', ['koast'])
             });
         };
 
+        // Create a new robot and saves it.
+        $scope.createRobot = function() {
+          var newRobotData = {
+            robotNumber: 90,
+            robotName: 'Marvin90',
+            owner: 'yuri'
+          };
+          koast.createResource('robots', newRobotData)
+            .then(function() {
+              return koast.getResource('robots', {robotNumber: 90});
+            })
+            .then(function(newRobot) {
+              $scope.robots.push(newRobot);
+            }, $log.error);
+        }
+
         // Request one robot from the server.
         koast.getResource('robots', {
           robotNumber: 1
