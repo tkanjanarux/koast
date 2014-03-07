@@ -2,8 +2,8 @@
 
 angular.module('sampleKoastClientApp', ['koast'])
 
-.controller('myCtrl', ['$scope', 'koast', '$timeout', '$log',
-  function ($scope, koast, $timeout, $log) {
+.controller('myCtrl', ['$scope', 'koast', '$timeout', '$q', '$log',
+  function ($scope, koast, $timeout, $q, $log) {
     'use strict';
 
     // Attach the user service to the scope.
@@ -39,22 +39,46 @@ angular.module('sampleKoastClientApp', ['koast'])
       koast.user.signOut();
     };
 
+
+    // Now onto robots, which is our data.
+    function reload() {
+      // Request all robots from the server.
+      koast.queryForResources('robots')
+        .then(function (robots) {
+          $scope.robots = robots;
+        }, $log.error);
+      $scope.robotStatus = {};
+    }
+
+
+    function makeRobotStatusUpdater(status, robotNumber) {
+      if (status==='success') {
+        return function() {
+          $scope.robotStatus[robotNumber] = 'Success!';
+        };
+      } else {
+        return function(error) {
+          $scope.robotStatus[robotNumber] = 'Oops: ' + error.toString();
+        };
+      }
+    }
+
     koast.user.whenSignedIn()
       .then(function() {
 
-        console.log('Looks like the user is signed in now.');
-
-        // Now onto robots, which is our data.
-        $scope.robotStatus = {};
+        $log.debug('Looks like the user is signed in now.');
 
         // Saves a robot upon button click.
         $scope.saveRobot = function (robot) {
           robot.save()
-            .then(function (response) {
-              $scope.robotStatus[robot.robotNumber] = 'Success!';
-            }, function (error) {
-              $scope.robotStatus[robot.robotNumber] = 'Oops:' + error.toString();
-            });
+            .then(makeRobotStatusUpdater('success', robot.robotNumber))
+            .then(null, makeRobotStatusUpdater('error', robot.robotNumber));
+        };
+
+        $scope.deleteRobot = function (robot) {
+          robot.delete()
+            .then(makeRobotStatusUpdater('success', robot.robotNumber))
+            .then(null, makeRobotStatusUpdater('error', robot.robotNumber));
         };
 
         // Create a new robot and saves it.
@@ -71,7 +95,7 @@ angular.module('sampleKoastClientApp', ['koast'])
             .then(function(newRobot) {
               $scope.robots.push(newRobot);
             }, $log.error);
-        }
+        };
 
         // Request one robot from the server.
         koast.getResource('robots', {
@@ -81,11 +105,8 @@ angular.module('sampleKoastClientApp', ['koast'])
             $scope.myRobot = robot;
           }, $log.error);
 
-        // Request all robots from the server.
-        koast.queryForResources('robots')
-          .then(function (robots) {
-            $scope.robots = robots;
-          }, $log.error);
+        reload();
+
       })
       .then(null, $log.error);
   }
