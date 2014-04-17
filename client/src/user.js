@@ -112,7 +112,7 @@ angular.module('koast-user', [])
       return $http.post('/auth/login', creds)
           .then(function (user) {
               return getUserData();
-          }, function(error) { $log.error(); throw error; });
+          }, function(error) { $log.error(error); throw error; });
     };
 
     // Registers the user. 
