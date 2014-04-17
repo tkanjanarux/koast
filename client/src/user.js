@@ -107,6 +107,14 @@ angular.module('koast-user', [])
         });
     };
 
+    //provides a way to login with a username and password.  NOTE: you have to enable 'password' as your authentication strategy.
+    user.login = function(creds) {
+      return $http.post('/auth/login', creds)
+          .then(function (user) {
+              return getUserData();
+          }, function(error) { $log.error(); throw error; });
+    };
+
     // Registers the user. 
     user.register = function (data) {
       return $http.put('/auth/user', data)

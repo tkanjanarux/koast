@@ -53,6 +53,7 @@ function makeVerifyFunction (users, config) {
           expect(user.username).to.equal(username);
           log.debug('passport.localStrategy: found user %s.', username);
           //return comparePasswords(password, user.password);
+          user.isAuthenticated = true;  // the Oauth provider sets this, so keep it consistent.
           done(null, user); // accept
         }
       })
