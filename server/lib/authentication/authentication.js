@@ -15,6 +15,10 @@ var password = require('./password');
 var util = require('../util/util');
 var dbUtils = require('../database/dbUtils');
 
+var bcrypt = require('bcrypt'),
+    SALT_WORK_FACTOR = 10;
+
+
 /**
  * Sets up session handling for the app.
  * @param {Object} app             An express app.
@@ -111,6 +115,54 @@ exports.addAuthenticationRoutes = function (app) {
           });
       })
       .then(null, util.makeErrorResponder(res));
+  });
+
+  // POST /auth/user - Add (register) a new user
+  app.post('/auth/user', function (req, res) {
+
+    if (!req.body.username || !req.body.password || !req.body.displayName || !req.body.email) {
+      res.send(401, 'You must provide username, email, and password');
+    }
+
+
+    // Encrypt the password
+    bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+      if (err) {
+        log.error('Could not generate salt.')
+        return res.send(500, 'Internal error');
+      }
+
+      // hash the password using our new salt
+      bcrypt.hash(req.body.password, salt, function (err, hash) {
+        if (err) {
+          log.error('Could not hash password')
+          return res.send(500, 'Internal error');
+        }
+
+        var user = new users();
+
+        user.displayName = req.body.displayName;
+        user.password = hash;
+        user.username = req.body.username;
+        user.email = req.body.email;
+
+        user.save(function (err, user) {
+
+          if (err && err.code === 11000) {
+            log.error('Could not save user, is username and email unique? ' + err.message);
+            return res.send(400, 'Username and email must be unique');
+          } else if (err){
+            log.error(err.message)
+            return res.send(500, 'Internal error');
+          }
+          if (user) {
+            console.log(user.username + ' was saved to the database');
+            res.send(200, null);
+          }
+        });
+
+      });
+    });
   });
 
   // POST /auth/logout - logs out the user.
