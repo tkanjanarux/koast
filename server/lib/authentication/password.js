@@ -81,7 +81,7 @@ exports.setup = function(app, users, config) {
       }
       if (!user) {
         req.logout();
-        res.send(401, 'Wrong password or no such user.');
+        res.send(422, 'Wrong password or no such user.');
       } else {
         req.login(user, function(err) {
           if (err) {
