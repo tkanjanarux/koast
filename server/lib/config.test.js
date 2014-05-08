@@ -1,4 +1,7 @@
+/* jshint expr:true */
+/* global require, describe, it, before, after */
 'use strict';
+
 var expect = require('chai').expect;
 var config = require('./config');
 
