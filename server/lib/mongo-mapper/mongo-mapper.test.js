@@ -5,12 +5,9 @@
 var expect = require('chai').expect;
 var Q = require('q');
 var _ = require('underscore');
-var config = require('../lib/config');
-var dbUtils = require('../lib/database/dbUtils');
-var mongoMapper = require('../lib/mongoMapper/mongoMapper');
-
-config.setConfigDirectory('tests/config/');
-config.setEnvironment('test');
+var config = require('../config');
+var dbUtils = require('../database/db-utils');
+var mongoMapper = require('../mongo-mapper/mongo-mapper');
 
 describe('Testing mongoMapper.', function (done) {
   var mapper;
@@ -22,6 +19,16 @@ describe('Testing mongoMapper.', function (done) {
   var robotDeleter;
   var robotId;
   var postedRobotId;
+
+  before(function() {
+    config.setConfigDirectory('server/test-data/config/', {force: true});
+    config.setEnvironment('test', {force: true});
+    dbUtils.reset();
+  });
+
+  after(function() {
+    return dbUtils.closeAllConnectionsNow();
+  });
 
   it('Create a connection', function (done) {
     var connectionPromise = dbUtils.createConfiguredConnections(['db1']);
@@ -86,7 +93,7 @@ describe('Testing mongoMapper.', function (done) {
       }
     }), makeResponseTester(200, done, function (result) {
       expect(result.length).to.equal(1);
-      expect(result[0].robotNumber).to.equal(1);
+      expect(result[0].data.robotNumber).to.equal(1);
     }));
   });
 
@@ -113,7 +120,7 @@ describe('Testing mongoMapper.', function (done) {
     robotPoster(makeRequest({body: {
       robotNumber: 2
     }}), makeResponseTester(200, done, function (result) {
-      postedRobotId = result._id;
+      postedRobotId = result[0].data._id;
     }));
   });
 
@@ -123,7 +130,7 @@ describe('Testing mongoMapper.', function (done) {
         _id: postedRobotId
       }
     }), makeResponseTester(200, done, function (result) {
-      expect(result[0].robotNumber).to.equal(2);
+      expect(result[0].data.robotNumber).to.equal(2);
     }));
   });
 
@@ -137,7 +144,7 @@ describe('Testing mongoMapper.', function (done) {
         robotNumber: 3
       }
     }), makeResponseTester(200, done, function (result) {
-      expect(result.robotNumber).to.equal(3);
+      expect(result[0].data.robotNumber).to.equal(3);
     }));
   });
 
@@ -147,7 +154,7 @@ describe('Testing mongoMapper.', function (done) {
         _id: postedRobotId
       }
     }), makeResponseTester(200, done, function (result) {
-      expect(result[0].robotNumber).to.equal(3);
+      expect(result[0].data.robotNumber).to.equal(3);
     }));
   });
 
@@ -158,7 +165,7 @@ describe('Testing mongoMapper.', function (done) {
         _id: postedRobotId
       }
     }), makeResponseTester(200, done, function (result) {
-      expect(result).to.equal('1');
+      expect(result).to.equal(1);
     }));
   });
 
