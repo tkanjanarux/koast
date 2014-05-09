@@ -15,6 +15,11 @@ var password = require('./password');
 var util = require('../util/util');
 var dbUtils = require('../database/db-utils');
 
+
+var nodemailer = {};//require('nodemailer');
+var async = require('async');
+var crypto = require('crypto');
+
 var bcrypt = require('bcrypt'),
     SALT_WORK_FACTOR = 10;
 
@@ -188,6 +193,60 @@ exports.addAuthenticationRoutes = function (app) {
       })
       .then(null, util.makeErrorResponder(res));
   });
+
+  app.post('/forgot', function(req, res) {
+    async.waterfall([
+      function(done) {
+        crypto.randomBytes(20, function(err, buf) {
+          var token = buf.toString('hex');
+          done(err, token);
+        });
+      },
+      function(token, done) {
+        users.findOne({ email: req.body.email }, function(err, user) {
+          if (!user) {
+            var errMsg = 'No account with that email address exists.';
+            log.error(errMsg);
+            return res.send(422, errMsg);
+          }
+
+          user.resetPasswordToken = token;
+          user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+
+          user.save(function(err) {
+            done(err, token, user);
+          });
+        });
+      },
+      function(token, user, done) {
+        var smtpTransport = nodemailer.createTransport('SMTP', {
+          service: 'SendGrid',
+          auth: {
+            user: 'johnrangle',
+            pass: 'password1'
+          }
+        });
+        // TODO need to customize this via config file of some sort.
+        var mailOptions = {
+          to: user.email,
+          from: 'passwordreset@koast.io',
+          subject: 'Password Reset',
+          text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+            'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+            'http://' + req.headers.host + '/reset/' + token + '\n\n' +
+            'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+        };
+        smtpTransport.sendMail(mailOptions, function(err) {
+          log.info('An e-mail has been sent to ' + user.email + ' with further instructions.');
+          done(err, 'done');
+        });
+      }
+      ], function(err) {
+        if (err) return next(err);
+        return res.send(200, {});
+      });
+    }
+  );
 
   // For now configure this regardless of authentication config, for backwards
   // compatibility.
