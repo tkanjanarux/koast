@@ -14,6 +14,8 @@ var oauth = require('./oauth');
 var password = require('./password');
 var util = require('../util/util');
 var dbUtils = require('../database/db-utils');
+var Q = require("q");
+
 
 var bcrypt = require('bcrypt'),
     SALT_WORK_FACTOR = 10;
@@ -204,4 +206,51 @@ exports.addAuthenticationRoutes = function (app) {
   if (authConfig.strategy === 'password') {
     password.setup(app, users, {});
   }
+};
+
+/**
+ * Give a user object and password, save the user to the database
+ * with an encryped password.
+ *
+ * If the saving the user was successful, return a successful promise, otherwise rejected promise.
+ *
+ * @param {Object} user
+ * @param {String} password
+ * @param {Object} res response
+ */
+exports.saveUser = function(user, password) {
+  var deferred = Q.defer();
+
+  // Encrypt the password
+  SALT_WORK_FACTOR = 10;
+  bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+    if (err) {
+      log.error('Could not generate salt.');
+      return deferred.reject(err);
+    }
+
+    // hash the password using our new salt
+    bcrypt.hash(password, salt, function(err, hash) {
+      if (err) {
+        log.error('Could not hash password');
+        return deferred.reject(err);
+      }
+
+      user.password = hash;
+
+      user.save(function(err, user) {
+        if (err) {}
+
+        if (user) {
+          log.info(user.username + ' was saved to the database');
+          deferred.resolve(user);
+        } else {
+          return deferred.reject(err);
+        }
+      });
+
+    });
+  });
+
+  return deferred.promise;
 };
