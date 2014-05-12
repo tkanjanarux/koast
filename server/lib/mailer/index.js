@@ -16,7 +16,7 @@ exports.mailerMaker = function() {
     },
     smtp: smtp,
     initEmail: function(options) {
-      return _.extend(mailerConfig.email, options)
+      return _.extend(mailerConfig.email, options);
     }
   }
 }
