@@ -107,6 +107,8 @@ exports.setup = function(app, users, config) {
     })(req, res, next);
   });
 
+  // Reset the password and provide a token to the user via email
+  // TODO customize mail.text
   app.post('/forgot', function(req, res) {
     async.waterfall([
 
@@ -141,7 +143,7 @@ exports.setup = function(app, users, config) {
         mail.text = 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
           'http://' + req.headers.host + '/reset/' + token + '\n\n' +
-          'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+          'If you did not request this, please ignore this email and your password will remain unchanged.\n';
         mail.to = user.email;
         mail.subject = 'Password Reset';
 
@@ -155,6 +157,7 @@ exports.setup = function(app, users, config) {
     );
   });
 
+  // Simple check to see if token is valid
   app.get('/reset/:token', function(req, res) {
     users.findOne({
       resetPasswordToken: req.params.token,
@@ -170,7 +173,8 @@ exports.setup = function(app, users, config) {
     });
   });
 
-
+  // Given a valid token, reset the password with a new password (encrypted), and email the user of such change.
+  // TODO customize mail.text
   app.post('/reset/:token', function(req, res) {
     async.waterfall([
 
