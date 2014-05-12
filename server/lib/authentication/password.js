@@ -14,6 +14,7 @@ var async = require('async');
 var crypto = require('crypto');
 var mailerMaker = require('../mailer').mailerMaker;
 var nodemailer = require('nodemailer');
+var authentication = require('./authentication');
 
 
 function comparePasswords(password1, password2) {
@@ -71,6 +72,11 @@ function makeVerifyFunction (users, config) {
       })
       .then(null, done); // report error
   };
+}
+
+function handleErrorOrSuccess(err, res) {
+  if (err) { return res.send(500, err); }
+  return res.send(200, {});
 }
 
 exports.setup = function(app, users, config) {
@@ -145,10 +151,8 @@ exports.setup = function(app, users, config) {
           done(err, 'done');
         });
       }
-    ], function(err) {
-      if (err) return res.send(500, err);
-      return res.send(200, {});
-    });
+    ], function(err) { handleErrorOrSuccess(err, res); }
+    );
   });
 
   app.get('/reset/:token', function(req, res) {
@@ -181,16 +185,13 @@ exports.setup = function(app, users, config) {
             return res.send(422, 'Password reset token is invalid or has expired.');
           }
 
-          user.password = req.body.password; // TODO HASH this
           user.resetPasswordToken = undefined;
           user.resetPasswordExpires = undefined;
-
-          user.save(function(err) {
-            if (err){
-              return res.send(500, err);
-            } else {
-              done(err, user);
-            }
+          authentication.saveUser(user, req.body.password)
+          .then(function(userResult){
+            done(null, userResult);
+          }, function(err){
+            done(err);
           });
         });
       },
@@ -207,9 +208,6 @@ exports.setup = function(app, users, config) {
         });
 
       }
-    ], function(err) {
-      if (err) return res.send(500, err);
-      return res.send(200, {});
-    });
+    ], function(err) { handleErrorOrSuccess(err, res); });
   });
 };
