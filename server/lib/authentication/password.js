@@ -13,7 +13,6 @@ var log = require('../log');
 var async = require('async');
 var crypto = require('crypto');
 var mailerMaker = require('../mailer').mailerMaker;
-var nodemailer = require('nodemailer');
 var authentication = require('./authentication');
 
 
