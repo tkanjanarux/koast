@@ -87,7 +87,7 @@ exports.setup = function(app, users, config) {
   passport.use(strategy);
   // Setup a route using that strategy
   app.post('/auth/login', function(req, res, next) {
-    console.log('/auth/login', req.query.username, req.query.password);
+    console.log('/auth/login', req.query.username);
     passport.authenticate('local', function(err, user, info) {
       if (err) {
         console.log(err);
