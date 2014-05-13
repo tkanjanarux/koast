@@ -74,7 +74,11 @@ function makeVerifyFunction (users, config) {
 }
 
 function handleErrorOrSuccess(err, res) {
-  if (err) { return res.send(500, err); }
+  if (err) { 
+    log.error(err);
+    return res.send(500, err); 
+  }
+  log.info('success ' + res);
   return res.send(200, {});
 }
 
@@ -148,7 +152,10 @@ exports.setup = function(app, users, config) {
 
 
         pwMailer.sendMail(mail, function(err, result) {
-          log.info('An e-mail has been sent to ' + user.email + ' with reset password instructions.');
+          if (!err){
+            log.info('An e-mail has been sent to ' + user.email + ' with reset password instructions.');  
+          }
+          
           done(err, 'done');
         });
       }
