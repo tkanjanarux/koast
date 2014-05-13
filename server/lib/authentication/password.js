@@ -203,7 +203,7 @@ exports.setup = function(app, users, config) {
         });
       },
       function(user, done) {
-        var pwMailer = mailerMaker('mailer-passwordchanged');
+        var pwMailer = mailerMaker('mailer-password-changed');
         var mail = pwMailer.initEmail();
         mail.to = user.email;
 
