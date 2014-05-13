@@ -73,13 +73,13 @@ function makeVerifyFunction (users, config) {
   };
 }
 
-function handleErrorOrSuccess(err, res) {
+function handleErrorOrSuccess(err, result, response) {
   if (err) { 
     log.error(err);
-    return res.send(500, err); 
+    return response.send(500, err); 
   }
-  log.info('success ' + res);
-  return res.send(200, {});
+  log.info('success ' + result);
+  return response.send(200, result);
 }
 
 exports.setup = function(app, users, config) {
@@ -159,7 +159,7 @@ exports.setup = function(app, users, config) {
           done(err, 'done');
         });
       }
-    ], function(err) { handleErrorOrSuccess(err, res); }
+    ], function(err, result) { handleErrorOrSuccess(err, result, res); }
     );
   });
 
@@ -174,26 +174,13 @@ exports.setup = function(app, users, config) {
   }
 
   // Simple check to see if token is valid (used for remote client apps)
-  app.get('/resetClient/:token', function(req, res) {
+  app.get('/reset/:token', function(req, res) {
     _findUserWithToken(req.params.token, function(err, user) {
       if (!user) {
         return res.send(422, 'Password reset token is invalid or has expired.');
       } else {
         return res.send(200, {});
       }
-    });
-  });
-
-  // Allows the user to submit a post /reset/:token request
-  app.get('/reset/:token', function(req, res) {
-    _findUserWithToken(req.params.token, function(err, user) {
-      if (!user) {
-        req.flash('error', 'Password reset token is invalid or has expired.');
-        return res.redirect('/forgot');
-      }
-      res.render('reset', {
-        user: req.user
-      });
     });
   });
 
@@ -231,8 +218,8 @@ exports.setup = function(app, users, config) {
         });
 
       }
-    ], function(err) {
-      handleErrorOrSuccess(err, res);
+    ], function(err, result) {
+      handleErrorOrSuccess(err, result, res);
     });
   });
 };
