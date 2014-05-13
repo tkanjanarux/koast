@@ -163,19 +163,37 @@ exports.setup = function(app, users, config) {
     );
   });
 
-  // Simple check to see if token is valid
-  app.get('/reset/:token', function(req, res) {
+
+  function _findUserWithToken(token, cb) {
     users.findOne({
-      resetPasswordToken: req.params.token,
+      resetPasswordToken: token,
       resetPasswordExpires: {
         $gt: Date.now()
       }
-    }, function(err, user) {
+    }, cb);
+  }
+
+  // Simple check to see if token is valid (used for remote client apps)
+  app.get('/resetClient/:token', function(req, res) {
+    _findUserWithToken(req.params.token, function(err, user) {
       if (!user) {
         return res.send(422, 'Password reset token is invalid or has expired.');
       } else {
         return res.send(200, {});
       }
+    });
+  });
+
+  // Allows the user to submit a post /reset/:token request
+  app.get('/reset/:token', function(req, res) {
+    _findUserWithToken(req.params.token, function(err, user) {
+      if (!user) {
+        req.flash('error', 'Password reset token is invalid or has expired.');
+        return res.redirect('/forgot');
+      }
+      res.render('reset', {
+        user: req.user
+      });
     });
   });
 
@@ -185,12 +203,7 @@ exports.setup = function(app, users, config) {
     async.waterfall([
 
       function(done) {
-        users.findOne({
-          resetPasswordToken: req.params.token,
-          resetPasswordExpires: {
-            $gt: Date.now()
-          }
-        }, function(err, user) {
+        _findUserWithToken(req.params.token, function(err, user) {
           if (!user) {
             return res.send(422, 'Password reset token is invalid or has expired.');
           }
@@ -198,11 +211,11 @@ exports.setup = function(app, users, config) {
           user.resetPasswordToken = undefined;
           user.resetPasswordExpires = undefined;
           authentication.saveUser(user, req.body.password)
-          .then(function(userResult){
-            done(null, userResult);
-          }, function(err){
-            done(err);
-          });
+            .then(function(userResult) {
+              done(null, userResult);
+            }, function(err) {
+              done(err);
+            });
         });
       },
       function(user, done) {
@@ -218,6 +231,8 @@ exports.setup = function(app, users, config) {
         });
 
       }
-    ], function(err) { handleErrorOrSuccess(err, res); });
+    ], function(err) {
+      handleErrorOrSuccess(err, res);
+    });
   });
 };
