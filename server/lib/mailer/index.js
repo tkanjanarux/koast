@@ -1,13 +1,17 @@
+'use strict';
+
 var nodemailer = require("nodemailer"),
     _ = require('underscore'),
     config = require('../config');
 
-exports.mailerMaker = function() {
-  var mailerConfig = config.getConfig('mailer'),
+exports.mailerMaker = function(passedConfigFilename) {
+  var configFilename = passedConfigFilename || 'mailer';
+
+  var mailerConfig = config.getConfig(configFilename),
   smtp;
 
   if (mailerConfig) {
-    smtp = nodemailer.createTransport("SMTP", mailerConfig.smtp);  
+    smtp = nodemailer.createTransport('SMTP', mailerConfig.smtp);  
   }
 
  return {
@@ -18,5 +22,5 @@ exports.mailerMaker = function() {
     initEmail: function(options) {
       return _.extend(mailerConfig.email, options);
     }
-  }
-}
+  };
+};

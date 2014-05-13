@@ -3,6 +3,10 @@
 
 // This is tentative (untested) implementation of password authentication.
 
+// Includes password reset, change password given token
+// Depends on config/<env>/mailer-reset.json and config/<env>/mailer-passwordchanged.json
+
+
 var passport = require('passport');
 var bcrypt = require('bcrypt');
 var Q = require('q');
@@ -83,7 +87,6 @@ function handleErrorOrSuccess(err, result, response) {
 }
 
 exports.setup = function(app, users, config) {
-  var pwMailer = mailerMaker();
 
   // Setup the authentication strategy
   var strategy = new LocalStrategy(makeVerifyFunction(users, config));
@@ -111,7 +114,6 @@ exports.setup = function(app, users, config) {
   });
 
   // Reset the password and provide a token to the user via email
-  // TODO customize mail.text
   app.post('/forgot', function(req, res) {
     async.waterfall([
 
@@ -142,14 +144,10 @@ exports.setup = function(app, users, config) {
       },
       function(token, user, done) {
         // Send email
+        var pwMailer = mailerMaker('mailer-reset');
         var mail = pwMailer.initEmail();
-        mail.text = 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-          'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-          'http://' + req.headers.host + '/reset/' + token + '\n\n' +
-          'If you did not request this, please ignore this email and your password will remain unchanged.\n';
+        mail.text = mail.text.replace('{token}', token);
         mail.to = user.email;
-        mail.subject = 'Password Reset';
-
 
         pwMailer.sendMail(mail, function(err, result) {
           if (!err){
@@ -185,7 +183,6 @@ exports.setup = function(app, users, config) {
   });
 
   // Given a valid token, reset the password with a new password (encrypted), and email the user of such change.
-  // TODO customize mail.text
   app.post('/reset/:token', function(req, res) {
     async.waterfall([
 
@@ -206,11 +203,9 @@ exports.setup = function(app, users, config) {
         });
       },
       function(user, done) {
-
+        var pwMailer = mailerMaker('mailer-passwordchanged');
         var mail = pwMailer.initEmail();
         mail.to = user.email;
-        mail.subject = 'Your password has been changed';
-        mail.text = 'You have successfully changed your password';
 
         pwMailer.sendMail(mail, function(err, result) {
           log.info('An e-mail has been sent to ' + user.email + ' indicating successful password change.');
