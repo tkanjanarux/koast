@@ -45,6 +45,8 @@
   "devDependencies": {
     "gulp": "~3.6.0",
     "mockery": "^1.4.0",
-    "rangle-gulp": "~0.0.5"
+    "rangle-gulp": "~0.0.5",
+    "sinon": "^1.9.1",
+    "sinon-chai": "^2.5.0"
   }
 }
