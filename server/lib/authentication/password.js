@@ -88,6 +88,13 @@ function handleErrorOrSuccess(err, result, response) {
 
 exports.setup = function(app, users, config) {
 
+  // Used for mailing out that the user has RESET his password
+  var mailerReset = mailerMaker('mailer-reset');
+
+  // Used for mailing out that the user has CHANGED his password
+  var mailerPasswordChanged = mailerMaker('mailer-password-changed');
+
+
   // Setup the authentication strategy
   var strategy = new LocalStrategy(makeVerifyFunction(users, config));
   passport.use(strategy);
@@ -144,12 +151,14 @@ exports.setup = function(app, users, config) {
       },
       function(token, user, done) {
         // Send email
-        var pwMailer = mailerMaker('mailer-reset');
-        var mail = pwMailer.initEmail();
+        var mail = mailerReset.initEmail();
+        expect(mail.text.indexOf('{token}') < 0).to.equal(false);
+
         mail.text = mail.text.replace('{token}', token);
+
         mail.to = user.email;
 
-        pwMailer.sendMail(mail, function(err, result) {
+        mailerReset.sendMail(mail, function(err, result) {
           if (!err){
             log.info('An e-mail has been sent to ' + user.email + ' with reset password instructions.');  
           }
@@ -203,11 +212,10 @@ exports.setup = function(app, users, config) {
         });
       },
       function(user, done) {
-        var pwMailer = mailerMaker('mailer-password-changed');
-        var mail = pwMailer.initEmail();
+        var mail = mailerPasswordChanged.initEmail();
         mail.to = user.email;
 
-        pwMailer.sendMail(mail, function(err, result) {
+        mailerPasswordChanged.sendMail(mail, function(err, result) {
           log.info('An e-mail has been sent to ' + user.email + ' indicating successful password change.');
           done(err, 'done');
         });

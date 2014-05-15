@@ -7,7 +7,7 @@ var nodemailer = require("nodemailer"),
 exports.mailerMaker = function(passedConfigFilename) {
   var configFilename = passedConfigFilename || 'mailer';
 
-  var mailerConfig = config.getConfig(configFilename),
+  var mailerConfig = config.getConfig(configFilename, true),
   smtp;
 
   if (mailerConfig) {
@@ -20,6 +20,7 @@ exports.mailerMaker = function(passedConfigFilename) {
     },
     smtp: smtp,
     initEmail: function(options) {
+      mailerConfig = config.getConfig(configFilename, true);
       return _.extend(mailerConfig.email, options);
     }
   };
