@@ -151,20 +151,31 @@ exports.setup = function(app, users, config) {
       },
       function(token, user, done) {
         // Send email
-        var mail = mailerReset.initEmail();
-        expect(mail.text.indexOf('{token}') < 0).to.equal(false);
+        var mail = mailerReset.initEmail()
+          .then(function(mail){
 
-        mail.text = mail.text.replace('{token}', token);
+            // Replace {token} with actual token in the mail's message. 
+            // The message must have {token} in either mail.html or mail.text
+            if (mail.text){
+              expect(mail.text.indexOf('{token}') < 0).to.equal(false);
+              mail.text = mail.text.replace('{token}', token);
+            } else if (mail.html){
+              expect(mail.html.indexOf('{token}') < 0).to.equal(false);  
+              mail.html = mail.html.replace('{token}', token);
+            }
+            
+            mail.to = user.email;
 
-        mail.to = user.email;
+            mailerReset.sendMail(mail, function(err, result) {
+              if (!err){
+                log.info('An e-mail has been sent to ' + user.email + ' with reset password instructions.');
+              }
+              done(err, 'done');
+            });
+          }, function(err){
+            done(err);
+          });
 
-        mailerReset.sendMail(mail, function(err, result) {
-          if (!err){
-            log.info('An e-mail has been sent to ' + user.email + ' with reset password instructions.');  
-          }
-          
-          done(err, 'done');
-        });
       }
     ], function(err, result) { handleErrorOrSuccess(err, result, res); }
     );
@@ -211,14 +222,19 @@ exports.setup = function(app, users, config) {
             });
         });
       },
-      function(user, done) {
-        var mail = mailerPasswordChanged.initEmail();
-        mail.to = user.email;
+      function (user, done) {
+        var mail = mailerPasswordChanged.initEmail()
+          .then(function (mail) {
+            mail.to = user.email;
 
-        mailerPasswordChanged.sendMail(mail, function(err, result) {
-          log.info('An e-mail has been sent to ' + user.email + ' indicating successful password change.');
-          done(err, 'done');
-        });
+            mailerPasswordChanged.sendMail(mail, function (err, result) {
+              log.info('An e-mail has been sent to ' + user.email + ' indicating successful password change.');
+              done(err, 'done');
+            });
+          }, function (err) {
+            done(err);
+          });
+
 
       }
     ], function(err, result) {
