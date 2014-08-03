@@ -6,6 +6,8 @@ angular.module('sampleKoastClientApp', ['koast'])
   function ($scope, koast, $timeout, $q, $log) {
     'use strict';
 
+    var maxNumber = 0;
+
     // Initiates login.
     $scope.login = function(provider) {
       koast.user.initiateOauthAuthentication(provider);
@@ -23,7 +25,7 @@ angular.module('sampleKoastClientApp', ['koast'])
       koast.user.checkUsernameAvailability(username)
         .then(function(isAvailable) {
           if (isAvailable) {
-            return koast.user.register({username: username});
+            return koast.user.registerSocial({username: username});
           } else {
             window.alert('Username taken!');
           }
@@ -40,6 +42,11 @@ angular.module('sampleKoastClientApp', ['koast'])
       koast.queryForResources('robots')
         .then(function (robots) {
           $scope.robots = robots;
+          robots.forEach(function(robot) {
+            if (robot.robotNumber > maxNumber) {
+              maxNumber = robot.robotNumber;
+            }
+          });
         }, $log.error);
       $scope.robotStatus = {};
     }
@@ -73,14 +80,15 @@ angular.module('sampleKoastClientApp', ['koast'])
 
     // Creates a new robot and saves it.
     $scope.createRobot = function() {
+      maxNumber += 1;
       var newRobotData = {
-        robotNumber: 90,
+        robotNumber: maxNumber,
         robotName: 'Marvin90',
         owner: 'yuri'
       };
       koast.createResource('robots', newRobotData)
         .then(function() {
-          return koast.getResource('robots', {robotNumber: 90});
+          return koast.getResource('robots', {robotNumber: maxNumber});
         })
         .then(function(newRobot) {
           $scope.robots.push(newRobot);
@@ -94,6 +102,8 @@ angular.module('sampleKoastClientApp', ['koast'])
         var query = {
           robotNumber: 1
         };
+
+        $log.debug('Looking good');
 
         // Then we request one robot from the server.
         koast.getResource('robots', query)
@@ -113,7 +123,7 @@ angular.module('sampleKoastClientApp', ['koast'])
   function (koast, $log) {
     'use strict';
     koast.init({
-      baseUrl: 'http://localkoast.rangle.io:3000/',
+      baseUrl: 'http://localkoast.rangle.io:3000',
       siteTitle: 'App Awesome'
     });
     koast.setApiUriPrefix('http://localkoast.rangle.io:3000/api/');
