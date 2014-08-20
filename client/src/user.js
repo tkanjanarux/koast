@@ -144,13 +144,11 @@ angular.module('koast-user', [])
     // user logs in with local strategy
     user.loginLocal = function(user) {
       $log.debug('Login:', user.username);
-      var config = {
-        params: {
-          username: user.username,
-          password: user.password
-        }
+      var body = {
+        username: user.username,
+        password: user.password
       };
-      return $http.post(koastOauth.makeRequestURL('/auth/login'), {}, config)
+      return $http.post(koastOauth.makeRequestURL('/auth/login'), body)
         .then(setUserForLocal);
     };
 
