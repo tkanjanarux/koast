@@ -165,7 +165,7 @@ describe('Testing mongoMapper.', function () {
         _id: postedRobotId
       }
     }), makeResponseTester(200, done, function (result) {
-      expect(result).to.equal(1);
+      expect(result).to.equal('1');
     }));
   });
 

@@ -38,7 +38,7 @@ exports.makeExpressApp = function () {
   app.use(express.bodyParser());
 
   // Add handling of sessions
-  authentication.addSessionHandling(app);
+  authentication.addAuthMaintenance(app);
 
   // Enable LESS.
   if (appConfig.lessPaths) {
@@ -57,7 +57,7 @@ exports.makeExpressApp = function () {
   if (appConfig.routes) {
     log.verbose('Adding routes.');
     appConfig.routes.forEach(function (routeConfig) {
-      log.verbose('    Monting %s route on %s.', routeConfig.type,
+      log.verbose('    Mounting %s route on %s.', routeConfig.type,
         routeConfig.route);
       if (routeConfig.type === 'static') {
         app.use(routeConfig.route, express.static(routeConfig.path));
@@ -70,14 +70,6 @@ exports.makeExpressApp = function () {
           var method = subRoute[0];
           var path = routeConfig.route + '/' + subRoute[1];
           var handler = subRoute[2];
-          // app[method](path, function (req, res, next) {
-          //   var userJson = req.headers['koast-user'];
-          //   if (userJson) {
-          //     // Not checking the validity of auth tokens for now!
-          //     req.user = JSON.parse(userJson);
-          //   }
-          //   next();
-          // });
           app[method](path, handler);
         });
       }
