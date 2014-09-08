@@ -28,7 +28,8 @@ var SALT_WORK_FACTOR = 10;
  * @param {Object} user
  * @param {String} password
  */
-function saveUser(user, password) {
+
+exports.saveUser = function(user, password) {
   var deferred = Q.defer();
 
   // Encrypt the password
@@ -62,7 +63,7 @@ function saveUser(user, password) {
   });
 
   return deferred.promise;
-}
+};
 
 function comparePasswords(password1, password2) {
   var deferred = Q.defer();
@@ -246,7 +247,7 @@ exports.setup = function(app, users, config) {
 
           user.resetPasswordToken = undefined;
           user.resetPasswordExpires = undefined;
-          authentication.saveUser(user, req.body.password)
+          exports.saveUser(user, req.body.password)
             .then(function(userResult) {
               done(null, userResult);
             }, function(err) {

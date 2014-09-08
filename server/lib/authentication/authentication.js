@@ -216,3 +216,4 @@ exports.addAuthenticationRoutes = function (app) {
   }
 };
 
+exports.saveUser = passwordAuth.saveUser;
