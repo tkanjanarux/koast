@@ -1,4 +1,4 @@
-/** @module lib/mongo-mapper/mongo-mapper */
+/** @module koast/mongoMapper */
 /* global require, exports */
 
 'use strict';
@@ -208,7 +208,7 @@ exports.makeMapper = function (dbConnection) {
           model: arg
         };
       } else {
-        optionsSpecificToRoute = arg
+        optionsSpecificToRoute = arg;
       }
 
       options = _.extend(options, service.options);
