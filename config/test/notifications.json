@@ -1,0 +1,12 @@
+{
+  "settings": {
+    "timeoutInSeconds": 3600
+  },
+  "android": {
+    "apiKey": "xx"
+  },
+  "ios": {
+    "cert": "xx/xx.pem",
+    "key": "xx/xx.pem"
+  }
+}
