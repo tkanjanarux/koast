@@ -84,7 +84,7 @@ exports.aws = aws;
  * @memberof koast
  * @see module:koast/pushNotifier
  */
-exports.getPushNotifier = pushNotifier.getPushNotifier;
+exports.pushNotifier = pushNotifier;
 
 /**
  * Gets logger (TODO more info?)
