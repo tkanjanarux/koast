@@ -76,4 +76,9 @@ gulp.task('dev', rg.nodemon({
 
 gulp.task('test', ['mocha']);
 
+gulp.task('test-notify', rg.mocha({
+  files: 'lib/push-notifier/*.test.js',
+  reporter: 'nyan'
+}));
+
 gulp.task('default', ['lint', 'mocha']);

@@ -6,7 +6,7 @@
     "apiKey": "xx"
   },
   "ios": {
-    "cert": "xx/xx.pem",
-    "key": "xx/xx.pem"
+    "cert": "path:/server/xx/xx.pem",
+    "key": "path:/server/xx/xx.pem"
   }
 }
