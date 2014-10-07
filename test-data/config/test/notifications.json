@@ -1,14 +1,9 @@
 {
-  "settings": {
-    "timeoutInSeconds": 3600
-  },
   "android": {
-    "collapseKey": "MyTestApp",
     "apiKey": "xx"
   },
   "ios": {
     "cert": "path:/server/xx/xx.pem",
-    "key": "path:/server/xx/xx.pem",
-    "badge": true
+    "key": "path:/server/xx/xx.pem"
   }
 }
