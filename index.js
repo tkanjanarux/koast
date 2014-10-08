@@ -78,7 +78,7 @@ exports.aws = aws;
 //exports.aws.makeS3FileUploader = s3upload.makeS3FileUploader;
 
 /**
- * Push notifications module TODO
+ * Push notifications module
  *
  * @var pushNotifier
  * @memberof koast
