@@ -5,6 +5,13 @@
       ["/app", "client/app"]
     ],
     "portNumber": 8080
+  },
+  "notifications": {
+    "settings": {
+      "timeoutInSeconds": 3600
+    },
+    "ios": {
+      "badge": true
+    }
   }
-
 }

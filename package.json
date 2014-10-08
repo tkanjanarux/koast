@@ -22,6 +22,7 @@
   "author": "Rangle.io",
   "license": "MIT",
   "dependencies": {
+    "apn": "^1.6.2",
     "async": "~0.2.10",
     "aws-sdk": "~2.0.0-rc10",
     "bcrypt": "~0.7.7",
@@ -42,6 +43,7 @@
     "jsonwebtoken": "^1.1.0",
     "less-middleware": "~0.1.15",
     "mongoose": "~3.8.6",
+    "node-gcm": "^0.9.12",
     "nodemailer": "~0.6.3",
     "optimist": "~0.6.0",
     "passport": "~0.2.0",
