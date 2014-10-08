@@ -1,5 +1,5 @@
 /** @namespace koast */
-/* global require, exports */
+/* global require */
 
 'use strict';
 
@@ -13,6 +13,10 @@ var koast = exports;
 
 // TODO refactor AWS code?!
 var aws = require('./lib/aws/s3upload.js');
+
+
+
+
 
 exports.koastRouter = require('./lib/koast-router');
 exports.makeExpressApp = appMaker.makeExpressApp;
@@ -78,29 +82,47 @@ exports.aws = aws;
  * @function getLogger
  * @memberof koast
  */
-exports.getLogger = function() {
+exports.getLogger = function () {
   return logger;
 };
 
+exports.configure = function (env, options) {
+
+  if (env && !options && typeof env !== 'string') {
+    options = env;
+  }
+  if (!env) {
+    env = process.env.NODE_ENV || 'dev';
+  }
+
+  if (options) {
+    koast.config.loadConfiguration(env, options);
+  } else {
+    koast.config.loadConfiguration(env);
+  }
+};
 /**
  * Run the webserver.
  *
  * @function serve
  * @memberof koast
  */
-exports.serve = function() {
+exports.serve = function (options) {
 
   var log = koast.getLogger();
 
-  koast.db.createConfiguredConnections()
-    .then(function(connection) {
+  return koast.config.whenReady
+    .then(koast.db.createConfiguredConnections)
+    .then(function () {
+
       var appConfig = koast.config.getConfig('app');
       var portNumber = Number(process.env.PORT || appConfig.portNumber);
       var app = koast.makeExpressApp();
       app.listen(portNumber);
       log.info('Listening on ', portNumber);
+      return app;
     })
-    .then(null, function(error) {
+    .then(null, function (error) {
       log.error('Error:', error);
       if (error.stack) {
         log.error(error.stack);
