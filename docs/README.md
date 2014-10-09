@@ -39,12 +39,8 @@ A basic server/app.js would look like:
 
 var koast = require('koast');
 
-koast.config
-  .loadConfiguration()
-  .then(koast.serve)
-  .then(null, function(err) {
-    console.log('Something went wrong starting koast', err);
-  });
+koast.configure();
+kaost.serve();
 
 ```
 
