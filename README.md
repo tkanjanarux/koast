@@ -1,16 +1,3 @@
-This is Koast's server side. It's organized as an NPM package providing a
-requirable module ("koast") and an executable (also "koast"), which offers some
-utilities. You cannot run the server by itself - you'll need to write a simple
-app using the koast module. See examples in the "examples" folder in the root
-of the repository.
-
-To use git version of the module, install it locally using npm link:
-
-  https://www.npmjs.org/doc/cli/npm-link.html
-
-To use the executable, install the package globally (with -g).
-
-
 # What is a Koast app?
 
 Koast provides a base for a backend server to support an AngularJS app. (It may be useful for Javascript apps built with other frameworks as well, but our focus is on Angular.) The goal is to quickly setup a server that would take care of things that a typical AngularJS app would need (such as configuration, authentication, and database access) without resorting to code generation.
@@ -19,118 +6,127 @@ Koast consists of two parts:
 
 A server side npm module "koast", which you can install with npm install koast. This module allows you to create a server. In a typical case, you would write a few lines of code to instantiate and start a server, defining most of the functionality through configuration files, a schema file, and a module implementing the API.
 
-A client-side bower package "koast", which you can install with bower install angular-koast. This provides an AngularJS module that helps your frontend app talk to the backend server. You don't have to use it: if you prefer you can just talk to the server directly. However, the frontend module might save you a bit of time.
+A client-side bower package "koast-angular", which you can install with bower install koast-angular. This provides an AngularJS module that helps your frontend app talk to the backend server. You don't have to use it: if you prefer you can just talk to the server directly. However, the frontend module might save you a bit of time.
 
-# What is a koastModule?
+# Koast quick start
 
-Koast Modules are defiend in your configuration under the "routes" section of your app.json, they can be defined as static or as a module.
-
-Koast Modules are expected to export an object with a defaults object, and a router object.
-
-```javascript
-// my module
-
-var express = require('express');
-var router = express.Router();
-// setup module & router
-
-module.exports = exports = {
-  defaults: { authorization: function() { return true; }},
-  koastModule: {
-    router: router
-  }
-};
+To get koast up and running quickly, you will need to have a few basic files:
 
 ```
-
-A Koast module contains the following:
-
-| Property | Required | Data |
-|----------|----------|------|
-| router   |  true    |  [Express 4 router](http://expressjs.com/4x/api.html#router)  |
-| defaults |  true    |  Default handlers, **must** contain `authorization` function. |
-
-
-We'll show you how to define, and use your
-own `koastModule`s to build an application server.
-
-## Starting your Koast app
-
-#### Suggested Folder Setup
-
-```
-├── package.json
-├── bower.json
-├── client
-│   └── index.html
-├── config
-│   ├── app.json          -- common configuration settings
-│   ├── development.json  -- environment specific configuration
-│   ├── staging.json
-│   └── production.json
 └── server
 │   ├── lib
-      └── api.js          -- koast modules to be loaded
+      └── api.js          -- koast API module using mongo mapper
     ├── app.js            -- server entry point
-    └── schemas.js
+    └── schemas.js        -- mongo schemas
 ```
 
-### The server
+Koast has a high level of customization when it comes to loading confioguration files, but for a quick-start you can explicitly set your configuration within your app.js file.
 
-The http server should be located in `server/app.js`. You will typically
-launch your application with `node server/app.js`.
 
 ```javascript
-// server/app.js
-
+/* app.js */
 var koast = require('koast');
-koast.configure();
+var appSettings = {
+  'app': {
+    'indexHtml': 'path:../client/index.html',
+    'portNumber': 8081,
+    'routes': [{
+      'route': '/api/v1',
+      'type': 'module',
+      'module': 'server/lib/api'
+    }]
+  },
+  'databases': [{
+    'host': '127.0.0.1',
+    'port': '27017',
+    'db': 'erg',
+    'schemas': './server/schemas.js',
+    'handle': '_'
+  }]
+};
+
+koast.configure({
+  appConfiguration: appSettings
+});
 koast.serve();
 ```
 
-### Hello, koastModules!
-
-Let's make our first `koastModule`!
+To quickly create api end-points with a MongoDB backend, an application can use the koast mongo-mapper. To use mongo-mapper, simply create a schema file like below:
 
 ```javascript
-// server/lib/api.js
+/* schemas .js */
+exports.schemas = [{
+  // Represents a task.
+  name: 'tasks',
+  properties: {
+    taskId: Number,
+    owner: String,
+    description: String
+  }
+}];
 
-var express = require('express');
-var router = express.Router();
+```
 
-router.use('/world', function(req, res) {
-  res.send('Hello, koast!');
-});
+and define a koast module to setup your routes:
 
-module.exports = exports = {
-  defaults: { authorization: function() { return true; }},
-  koastModule: {
-    router: router
+```javascript
+/* lib/api.js */
+/* global require */
+
+'use strict';
+
+var koast = require('koast');
+var koastRouter = koast.koastRouter;
+var connection = koast.db.getConnectionNow();
+var mapper = koast.mongoMapper.makeMapper(connection);
+
+var defaults = {
+  authorization: function (req, res) {
+    return true;
   }
 };
-```
 
-Next, we will cover how to hook your API up to the server.
+mapper.options.useEnvelope = false;
 
-## Configuring your koast application
+var routes = [{
+  method: 'get',
+  route: 'tasks',
+  handler: mapper.get({
+    model: 'tasks'
+  })
+}, {
+  method: ['get', 'put', 'post', 'delete'],
+  route: 'tasks/:_id',
+  handler: mapper.auto({
+    model: 'tasks'
+  })
+}];
 
-The first thing we're going to want to configure, is our koastModule.
-
-### Connecting the application
-
-```javascript
-// example config/app.json
-{
-  "app": {
-    "portNumber": 3001,
-    "routes": [{
-      "route": "/api/v1",
-      "type": "module",
-      "module": "server/lib/api" // load the module in server/lib/api.js
-    }]
+module.exports = exports = {
+  koastModule: {
+    defaults: defaults,
+    router: koastRouter(routes, defaults)
   }
-}
+};
+
 ```
 
-This will load the express router from server/api and mount it to
-`/api/v1/`. So the route `/api/v1/world` will be accessible.
+When running this application with node server/app.js, you will have a quick CRUD application setup for your tasks schema.
+
+# Further Reading ...
+
+More in depth documentation is available [under the docs folder](./docs/readme.md). This documentation goes into more details about how to configure koast, the features supported and the other modules that are available.
+
+- [Basics](./docs/readme.md#basics)
+  - [Getting Started](./docs/readme.md#getting-started)
+- [Configuration](./docs/readme.md#configuration)
+- [Setting up Routes](./docs/readme.md#setting-up-routes)
+  - [Static Routes](./docs/readme.md#static)
+  - [Module Routes](./docs/readme.md#module)
+  - [Migrating older Koast Routes](./docs/readme.md#migrating-older-koast-applications)
+- [Mongo Mapper](./docs/readme.md#mongo-mapper)
+  - [Basic Usage](./docs/readme.md#basic-usage)
+  - [Mongo Mapper Options](./docs/readme.md#mongo-mapper-options)
+  - [Annotators](./docs/readme.md#annotators)
+  - [Query Decorators](./docs/readme.md#query-decorators)
+  - [Filters](./docs/readme.md#filters)
