@@ -106,9 +106,9 @@ exports.configure = function (env, options) {
   }
 
   if (options) {
-    koast.config.loadConfiguration(env, options);
+    return koast.config.loadConfiguration(env, options);
   } else {
-    koast.config.loadConfiguration(env);
+    return koast.config.loadConfiguration(env);
   }
 };
 /**
