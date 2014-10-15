@@ -2,10 +2,12 @@
   "name": "koast",
   "version": "0.4.3-rc.4",
   "description": "A Thin Server with an Attitude",
-  "contributors": [{
-    "name": "Yuri Takhteyev",
-    "email": "yuri@yto.io"
-  }],
+  "contributors": [
+    {
+      "name": "Yuri Takhteyev",
+      "email": "yuri@yto.io"
+    }
+  ],
   "main": "server/index.js",
   "bin": {
     "koast": "./bin/koast"
@@ -59,7 +61,8 @@
     "shortstop-handlers": "^1.0.0",
     "shortstop-resolve": "^1.0.1",
     "underscore": "~1.5.2",
-    "winston": "~0.7.2"
+    "winston": "~0.7.2",
+    "inquirer": "^0.8.0"
   },
   "devDependencies": {
     "gulp": "^3.8.7",
