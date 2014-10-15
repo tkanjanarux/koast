@@ -54,7 +54,6 @@
     "passport-twitter": "~1.0.2",
     "path": "^0.4.9",
     "q": "~1.0.0",
-    "rangle-gulp": "0.0.7",
     "rekuire": "^0.1.5",
     "serve-favicon": "^2.1.4",
     "shortstop": "^1.0.1",
