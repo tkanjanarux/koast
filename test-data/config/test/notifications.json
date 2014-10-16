@@ -1,9 +1,0 @@
-{
-  "android": {
-    "apiKey": "xx"
-  },
-  "ios": {
-    "cert": "path:/server/xx/xx.pem",
-    "key": "path:/server/xx/xx.pem"
-  }
-}

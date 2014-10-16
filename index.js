@@ -9,7 +9,6 @@ var dbUtils = require('./lib/database/db-utils');
 var logger = require('./lib/log');
 var mongoMapper = require('./lib/mongo-mapper/mongo-mapper');
 var mailer = require('./lib/mailer');
-var pushNotifier = require('./lib/push-notifier/push-notifier');
 var koast = exports;
 
 // TODO refactor AWS code?!
@@ -76,15 +75,6 @@ exports.mongoMapper = mongoMapper;
  */
 exports.aws = aws;
 //exports.aws.makeS3FileUploader = s3upload.makeS3FileUploader;
-
-/**
- * Push notifications module
- *
- * @var pushNotifier
- * @memberof koast
- * @see module:koast/pushNotifier
- */
-exports.pushNotifier = pushNotifier;
 
 /**
  * Gets logger (TODO more info?)

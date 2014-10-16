@@ -1,9 +1,0 @@
-{
-  "settings": {
-    "timeoutInSeconds": 60
-  },
-  "android": {
-    "collapseKey": "MyTestApp",
-    "apiKey": "xx"
-  }
-}

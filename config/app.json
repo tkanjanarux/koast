@@ -14,14 +14,5 @@
         "sendValue": true
       }
     }
-  },
-  "notifications": {
-    "settings": {
-      "timeoutInSeconds": 3600
-    },
-    "ios": {
-      "badge": true
-    }
   }
-
 }

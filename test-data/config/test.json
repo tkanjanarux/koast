@@ -1,6 +1,4 @@
 {
   "databases": "import:./test/databases.json",
-  "anotherDb": "import:./test/anotherDb.json",
-  "notifications": "import:./test/notifications.json",
-  "notificationsOther": "import:./test/notificationsOther.json"
+  "anotherDb": "import:./test/anotherDb.json"
 }
