@@ -6,6 +6,11 @@
   - [Module Routes](#module)
   - [Migrating older Koast Routes](#migrating-older-koast-applications)
 - [Mongo Mapper](#mongo-mapper)
+  - [Basic Usage](#basic-usage)
+  - [Mongo Mapper Options](#mongo-mapper-options)
+  - [Annotators](#annotators)
+  - [Query Decorators](#query-decorators)
+  - [Filters](#filters)
 
 # Basics #
 
@@ -251,26 +256,14 @@ var defaults =
 };
 var routes = [{
   method: 'get',
-  route: 'tasks/',
+  route: 'tasks',
   handler: mapper.get({
     model: 'tasks'
   })
 }, {
-  method: 'get',
+  method: ['get', 'put', 'post', 'delete'],
   route: 'tasks/:_id',
-  handler: mapper.get({
-    model: 'tasks'
-  })
-}, {
-  method: 'post',
-  route: 'tasks/',
-  handler: mapper.post({
-    model: 'tasks'
-  })
-}, {
-  method: 'put',
-  route: 'tasks/:_id',
-  handler: mapper.put({
+  handler: mapper.auto({
     model: 'tasks'
   })
 }];
