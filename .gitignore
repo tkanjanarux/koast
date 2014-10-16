@@ -5,3 +5,4 @@ client/bower_components/
 .idea/
 docs/html
 npm-debug.log
+.DS_Store
