@@ -1,3 +1,6 @@
+# documentation is moving #
+
+please see: [rangle.github.io/koast-documentation](http://rangle.github.io/koast-documentation)
 - [Basics](#basics)
   - [Getting Started](#getting-started)
 - [Configuration](#configuration)
