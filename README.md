@@ -115,18 +115,28 @@ When running this application with node server/app.js, you will have a quick CRU
 
 # Further Reading ...
 
-More in depth documentation is available [under the docs folder](./docs/readme.md). This documentation goes into more details about how to configure koast, the features supported and the other modules that are available.
+More in depth documentation is available [at rangle.github.io/koast-documentation](http://rangle.github.io/koast-documentation). This documentation goes into more details about how to configure koast, the features supported and the other modules that are available.
 
-- [Basics](./docs/readme.md#basics)
-  - [Getting Started](./docs/readme.md#getting-started)
-- [Configuration](./docs/readme.md#configuration)
-- [Setting up Routes](./docs/readme.md#setting-up-routes)
-  - [Static Routes](./docs/readme.md#static)
-  - [Module Routes](./docs/readme.md#module)
-  - [Migrating older Koast Routes](./docs/readme.md#migrating-older-koast-applications)
-- [Mongo Mapper](./docs/readme.md#mongo-mapper)
-  - [Basic Usage](./docs/readme.md#basic-usage)
-  - [Mongo Mapper Options](./docs/readme.md#mongo-mapper-options)
-  - [Annotators](./docs/readme.md#annotators)
-  - [Query Decorators](./docs/readme.md#query-decorators)
-  - [Filters](./docs/readme.md#filters)
+
+- [Basics](http://rangle.github.io/koast-documentation/basics)
+  - [Getting Started](http://rangle.github.io/koast-documentation/documentation/basics/getting-started.html#getting-started)
+  - [Koast Init](http://rangle.github.io/koast-documentation/documentation/basics/getting-started.html#koast-init)
+  - [Manual Creation](http://rangle.github.io/koast-documentation/documentation/basics/getting-started.html#manual-creation)
+- [Configuration](http://rangle.github.io/koast-documentation/documentation/configuration/index.html)
+  - [App Configuration](http://rangle.github.io/koast-documentation/documentation/configuration/app-configuration.html)
+  - [Authentication Configuration](http://rangle.github.io/koast-documentation/documentation/configuration/authentication-configuration.html)
+  - [Database Configuration](http://rangle.github.io/koast-documentation/documentation/configuration/database-configuration.html)
+- [Authentication](http://rangle.github.io/koast-documentation/documentation/authentication/authentication.html)
+  - [Authentication Options](http://rangle.github.io/koast-documentation/documentation/authentication/authentication.html#authentication-options)
+  - [Example Projects](http://rangle.github.io/koast-documentation/documentation/authentication/authentication.html#example-projects)
+  - [Password - Tokens](http://rangle.github.io/koast-documentation/documentation/authentication/authentication.html#password---tokens)
+  - [OAuth Setup](http://rangle.github.io/koast-documentation/documentation/authentication/authentication.html#oauth-setup)
+  - [OAuth Tokens](http://rangle.github.io/koast-documentation/documentation/authentication/authentication.html#oauth---tokens)
+- [Setting up Routes](http://rangle.github.io/koast-documentation/documentation/routing/setting-up-routes.html)
+  - [Static Routes](http://rangle.github.io/koast-documentation/documentation/routing/setting-up-routes.html#static)
+  - [Module Routes](http://rangle.github.io/koast-documentation/documentation/routing/setting-up-routes.html#module)
+  - [Migrating older Koast Routes](http://rangle.github.io/koast-documentation/documentation/routing/setting-up-routes.html#migrating-older-koast-applications)
+- [Mongo Mapper](http://rangle.github.io/koast-documentation/documentation/mongo-mapper/mongo-mapper.html)
+  - [Basic Usage](http://rangle.github.io/koast-documentation/documentation/mongo-mapper/mongo-mapper.html#basic-usage)
+  - [Annotators](http://rangle.github.io/koast-documentation/documentation/mongo-mapper/mongo-mapper.html#annotators)
+
