@@ -14,5 +14,14 @@
         "sendValue": true
       }
     }
+  },
+
+  "mongoMapper": {
+    "400": {
+      "sendValue": true
+    },
+    "500": {
+      "sendValue": true
+    }
   }
 }
