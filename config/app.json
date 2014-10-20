@@ -20,7 +20,8 @@
       "timeoutInSeconds": 3600
     },
     "ios": {
-      "badge": true
+      "badge": true,
+      "production": false
     }
   }
 }

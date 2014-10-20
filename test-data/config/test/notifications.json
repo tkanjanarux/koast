@@ -4,6 +4,7 @@
   },
   "ios": {
     "cert": "path:/server/xx/xx.pem",
-    "key": "path:/server/xx/xx.pem"
+    "key": "path:/server/xx/xx.pem",
+    "production": true
   }
 }
