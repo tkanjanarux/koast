@@ -23,5 +23,13 @@
       "badge": true,
       "production": false
     }
+  },
+  "mongoMapper": {
+    "400": {
+      "sendValue": true
+    },
+    "500": {
+      "sendValue": true
+    }
   }
 }
