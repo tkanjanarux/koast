@@ -61,6 +61,7 @@
     "shortstop": "^1.0.1",
     "shortstop-handlers": "^1.0.0",
     "shortstop-resolve": "^1.0.1",
+    "superagent": "^0.20.0",
     "underscore": "~1.5.2",
     "winston": "~0.7.2"
   },
