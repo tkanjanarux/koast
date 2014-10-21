@@ -1,2 +1,1 @@
-This folder contains sample Koast applications. At the moment there is only
-one: "basic-express", which sets up a simple server using Koast and Express.
+Please look at the [koast-examples](https://github.com/rangle/koast-examples) repository for sample applications.
