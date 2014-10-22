@@ -2,10 +2,12 @@
   "name": "koast",
   "version": "0.4.3-rc.6",
   "description": "A Thin Server with an Attitude",
-  "contributors": [{
-    "name": "Yuri Takhteyev",
-    "email": "yuri@yto.io"
-  }],
+  "contributors": [
+    {
+      "name": "Yuri Takhteyev",
+      "email": "yuri@yto.io"
+    }
+  ],
   "main": "server/index.js",
   "bin": {
     "koast": "./bin/koast"
@@ -37,9 +39,11 @@
     "gulp-conflict": "^0.2.0",
     "gulp-install": "^0.2.0",
     "gulp-util": "^3.0.1",
+    "inquirer": "^0.8.0",
     "jsdoc": "~3.3.0",
     "jsonwebtoken": "^1.1.0",
     "less-middleware": "~0.1.15",
+    "lodash": "^2.4.1",
     "mongoose": "~3.8.6",
     "multer": "^0.1.4",
     "node-gcm": "^0.9.12",
@@ -57,9 +61,9 @@
     "shortstop": "^1.0.1",
     "shortstop-handlers": "^1.0.0",
     "shortstop-resolve": "^1.0.1",
+    "superagent": "^0.20.0",
     "underscore": "~1.5.2",
-    "winston": "~0.7.2",
-    "inquirer": "^0.8.0"
+    "winston": "~0.7.2"
   },
   "devDependencies": {
     "gulp": "^3.8.7",
