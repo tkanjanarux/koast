@@ -10,17 +10,42 @@ A client-side bower package "koast-angular", which you can install with bower in
 
 # Koast quick start
 
-To get koast up and running quickly, you will need to have a few basic files:
+To get koast up and running quickly, just run `koast init`, it will then prompt you to select some basic configuration for your app.
 
 ```
-└── server
-│   ├── lib
-      └── api.js          -- koast API module using mongo mapper
-    ├── app.js            -- server entry point
-    └── schemas.js        -- mongo schemas
+  _                   _
+ | | _____   __ _ ___| |_
+ | |/ / _ \ / _` / __| __|
+ |   < (_) | (_| \__ \ |_
+ |_|\_\___/ \__,_|___/\__| Is now initializing your app <3
+
+? Package name: koast-app
+? Description: A koast app
+? Include frontend: Yes
+? Include default gulpfile: Yes
 ```
 
-Koast has a high level of customization when it comes to loading confioguration files, but for a quick-start you can explicitly set your configuration within your app.js file.
+
+Which will create this file structure:
+
+
+```
+├── bower_components -- only if 'include front end'
+├── client           -- only if 'include front end'
+├── config
+│   ├── app.json     -- global configuration
+│   └── dev
+|     └── dev.json
+├── server
+|   ├── app.js       -- server application
+|   └── api.js       -- example api
+└── gulpfile.js      -- only if 'include default gulpfile'
+```
+
+
+
+Koast has a high level of customization when it comes to loading configuration files. The init process will create a default `config/app.json` that your app will use to bootstrap itself.
+*Note*, for a quick-start (or for testing) you can explicitly set your configuration within your `app.js` file
 
 
 ```javascript
