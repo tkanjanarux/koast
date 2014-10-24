@@ -18,7 +18,13 @@ var aws = require('./lib/aws/s3upload.js');
 
 
 
-
+/**
+ * koast router
+ *
+ * @var koastRouter
+ * @memberof koast
+ * @see module:koast/koast-router
+ */
 exports.koastRouter = require('./lib/koast-router');
 exports.makeExpressApp = appMaker.makeExpressApp;
 
@@ -87,7 +93,7 @@ exports.aws = aws;
 exports.pushNotifier = pushNotifier;
 
 /**
- * Gets logger (TODO more info?)
+ * Gets logger
  *
  * @function getLogger
  * @memberof koast
@@ -96,6 +102,23 @@ exports.getLogger = function () {
   return logger;
 };
 
+/**
+ * Configure a koast application
+ * @memberof koast
+ * @param {string} [env] - environment to use. If not specified, will use process.env.NODE_ENV, or default to development
+ * @param {object} [options] - options to use for the application. If not specified, will load up config/app.json and environment specific settings.
+ * @return {promise} promise that resolves once configuration is complete. Result of promise will contain the current configuration
+ * @example
+ * 'use strict';
+ *
+ * var koast = require('koast');
+ * koast.configure()
+ * .then(function (config) {
+ *    console.log('This is your configuration: ', config);
+ * });
+ *
+ * koast.serve();
+ */
 exports.configure = function (env, options) {
 
   if (env && !options && typeof env !== 'string') {
