@@ -1,6 +1,6 @@
 {
   "name": "koast",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "A Thin Server with an Attitude",
   "contributors": [{
     "name": "Yuri Takhteyev",
@@ -55,6 +55,7 @@
     "path": "^0.4.9",
     "q": "~1.0.0",
     "rekuire": "^0.1.5",
+    "semver": "^4.1.0",
     "serve-favicon": "^2.1.4",
     "shortstop": "^1.0.1",
     "shortstop-handlers": "^1.0.0",
