@@ -1,0 +1,12 @@
+{
+  "normal": {
+    "someArray": [{
+      "baseDefault1": "baseDefault1"
+    }, {
+      "baseDefault2": "baseDefault2"
+    }]
+  },
+  "error": {
+    "400": "baseDefault"
+  }
+}

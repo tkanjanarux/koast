@@ -1,0 +1,9 @@
+{
+  "normal": {
+    "appEnv": "appEnv"
+  },
+  "errors": {
+    "200": "app env"
+  },
+  "arrays_ae": ["app env1", "app env2"]
+}

@@ -2,7 +2,7 @@
 /* global require */
 
 'use strict';
-
+var yarg = require('yargs');
 var appMaker = require('./lib/app/app-maker');
 var config = require('./lib/config');
 var dbUtils = require('./lib/database/db-utils');
@@ -10,11 +10,12 @@ var logger = require('./lib/log');
 var mongoMapper = require('./lib/mongo-mapper/mongo-mapper');
 var mailer = require('./lib/mailer');
 var pushNotifier = require('./lib/push-notifier/push-notifier');
+var configCli = require('./lib/cli/config-cli');
 var koast = exports;
 
 // TODO refactor AWS code?!
 var aws = require('./lib/aws/s3upload.js');
-
+var argv = yarg.argv;
 
 
 
@@ -145,6 +146,7 @@ exports.serve = function (options) {
   var log = koast.getLogger();
 
   return koast.config.whenReady
+    .then(configCli)
     .then(koast.db.createConfiguredConnections)
     .then(function () {
 
@@ -153,6 +155,7 @@ exports.serve = function (options) {
       var app = koast.makeExpressApp();
       app.listen(portNumber);
       log.info('Listening on ', portNumber);
+
       return app;
     })
     .then(null, function (error) {

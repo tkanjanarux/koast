@@ -1,0 +1,18 @@
+{
+  "normal": {
+    "appDefault": "baseDefault - replace with appDefault",
+    "appEnv": "baseDefault - replace with appEnv",
+    "baseDefault": "baseDefault",
+    "baseEnv": "baseDefault - replace with baseEnv",
+    "someArray": [{
+      "baseDefault": "baseDefault"
+    }]
+  },
+  "errors": {
+    "100": "base default - replaced by app default",
+    "200": "base default - replaced by app env",
+    "300": "base default",
+    "400": "base default replaced by base env"
+  },
+  "arrays": ["app default", "app default"]
+}

@@ -1,0 +1,12 @@
+{
+  "section3": {
+    "key1": "app env"
+  },
+  "section4": {
+    "key2": "app env"
+  },
+  "section6": {
+    "key1": "app env",
+    "key2": "env:___RANDOM__TEST"
+  }
+}

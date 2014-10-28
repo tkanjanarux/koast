@@ -1,0 +1,8 @@
+{
+  "normal": {
+    "baseEnv": "baseDefault - replace with baseEnv"
+  },
+  "errors": {
+    "400": "base env"
+  }
+}

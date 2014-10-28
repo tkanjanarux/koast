@@ -1,0 +1,13 @@
+{
+  "normal": {
+    "appDefault": "appDefault"
+  },
+  "errors": {
+    "100": "app default",
+    "200": "app default - replaced by app env"
+  },
+  "arrays_ad": ["app default", "app default"],
+  "arrays_ae": ["app default1 - replace by app env1",
+    "app default2 - replace by app env2"
+  ]
+}
