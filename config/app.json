@@ -15,6 +15,7 @@
       }
     }
   },
+
   "notifications": {
     "settings": {
       "timeoutInSeconds": 3600
@@ -24,12 +25,24 @@
       "production": false
     }
   },
+
   "mongoMapper": {
     "400": {
       "sendValue": true
     },
     "500": {
       "sendValue": true
+    }
+  },
+
+  "aws": {
+    "s3": {
+      "400": {
+        "sendValue": true
+      },
+      "500": {
+        "sendValue": true
+      }
     }
   }
 }
