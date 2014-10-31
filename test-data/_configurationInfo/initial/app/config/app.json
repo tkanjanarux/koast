@@ -1,0 +1,19 @@
+{
+  "section1": {
+    "key1": "app default"
+  },
+  "section2": {
+    "key1": "app default"
+  },
+  "section3": {
+    "key1": "app default",
+    "key2": "env:___RANDOM__TEST"
+  },
+  "error": {
+    "400": true
+  },
+  "someArray":
+  {
+    "values": [0,1,2]
+  }
+}

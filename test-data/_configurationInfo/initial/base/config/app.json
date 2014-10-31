@@ -1,0 +1,12 @@
+{
+  "section1": {
+    "key1": "base default",
+    "key2": "base default"
+  },
+  "section2": {
+    "key1": "base default"
+  },
+  "section4": {
+    "key1": "env:___RANDOM__TEST"
+  }
+}

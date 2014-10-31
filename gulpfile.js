@@ -42,7 +42,7 @@ gulp.task('beautify', rg.beautify({
 
 
 var docGlobs = ['index.js',
-  'lib/**'
+  'lib/*.js', 'lib/**/*.js', 'lib/config-inspector/lib/**/*.js'
 ];
 
 gulp.task('jsdoc', function () {

@@ -1,0 +1,10 @@
+{
+  "section1":
+  {
+    "key1": "base env"
+  },
+  "section5": {
+    "key1": "base env",
+    "key2": "env:___RANDOM__TEST"
+  }
+}
