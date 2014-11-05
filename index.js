@@ -16,6 +16,7 @@ var koast = exports;
 // TODO refactor AWS code?!
 var aws = require('./lib/aws/s3upload.js');
 var argv = yarg.argv;
+var versionReporter = require('./lib/version-reporter');
 
 
 
@@ -149,6 +150,8 @@ exports.serve = function (options) {
     .then(configCli)
     .then(koast.db.createConfiguredConnections)
     .then(function () {
+
+      versionReporter.globalVersionWarning();
 
       var appConfig = koast.config.getConfig('app');
       var portNumber = Number(process.env.PORT || appConfig.portNumber);
