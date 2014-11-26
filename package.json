@@ -49,6 +49,7 @@
     "less-middleware": "~0.1.15",
     "lodash": "^2.4.1",
     "mongo-mapper": "^1.0.0",
+    "mongodump-stream": "^1.1.1",
     "mongoose": "~3.8.6",
     "multer": "^0.1.4",
     "node-gcm": "^0.9.12",
