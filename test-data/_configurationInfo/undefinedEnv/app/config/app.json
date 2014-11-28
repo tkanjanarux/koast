@@ -1,0 +1,6 @@
+{
+  "mySection": {
+    "appDefault": "env:I_EXPECT_NOTHING_HERE_APP",
+    "appEnv": "env:I_EXPECT_NOTHING_HERE_APP_ENV"
+  }
+}
