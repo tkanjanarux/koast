@@ -33,14 +33,14 @@ var routerPromise = koast.admin.getRouter(configurationFunction);
 ### The Configuration Function
 
 The configuration function takes one paramater, `register`, and
-*must* return a promise that resolves upon completion.
+**must** return a promise that resolves upon completion.
 
 
 _TODO ensure that app-maker.js waits for promise_
 
 
 This is where the magic happens. The reasoning behind having the
-configuration file, is so that you can *register* handlers to be
+configuration file, is so that you can **register** handlers to be
 discoverable by the client.
 
 Here is an example of a configuration function:
@@ -72,7 +72,7 @@ var configurationFunction = function(register) {
 
 #### Registration function
 
-This is how you register a function to be *discoverable*.
+This is how you register a function to be **discoverable**.
 Your admin API router should contain a `GET /discovery` endpoint.
 
 The registration function takes a single configuration object as a
