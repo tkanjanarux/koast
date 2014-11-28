@@ -12,6 +12,12 @@ gulp.task('mocha', rg.mocha({
   reporter: 'nyan'
 }));
 
+gulp.task('mocha-ci', rg.mocha({
+  files: 'lib/**/*.test.js',
+  reporter: 'spec'
+}));
+
+
 gulp.task('mocha-watch-run', rg.mocha({
   files: 'lib/**/*.test.js',
   reporter: 'nyan',
