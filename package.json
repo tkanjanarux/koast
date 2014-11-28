@@ -1,13 +1,11 @@
 {
   "name": "koast",
-  "version": "0.5.0-rc.1",
+  "version": "0.5.0-rc.3",
   "description": "A Thin Server with an Attitude",
-  "contributors": [
-    {
-      "name": "Yuri Takhteyev",
-      "email": "yuri@yto.io"
-    }
-  ],
+  "contributors": [{
+    "name": "Yuri Takhteyev",
+    "email": "yuri@yto.io"
+  }],
   "main": "server/index.js",
   "bin": {
     "koast": "./bin/koast"
@@ -42,7 +40,7 @@
     "gulp-install": "^0.2.0",
     "gulp-util": "^3.0.1",
     "inquirer": "^0.8.0",
-    "jsdoc": "~3.3.0",
+    "jsdoc": "~3.2",
     "jsonwebtoken": "^1.1.0",
     "less-middleware": "~0.1.15",
     "lodash": "^2.4.1",
