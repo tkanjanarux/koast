@@ -220,7 +220,8 @@ GET  /admin/api/backup/s3/:id
 POST /admin/api/backup/s3/:id
 ```
 
-**TODO explain different module types?**
+**TODO explain different module types? The following instructions are
+specific to type `backup`**
 
 ```
 POST /admin/api/backup/s3
