@@ -6,7 +6,8 @@ So you want an admin API, huh kid?
 ## Setting up an admin API
 
 The koast admin API is a series of utility functions that one can
-use to generate
+use to generate an HTTP API for controlling certain functionality
+in a Koast application.
 
 
 #### Create a koast module
