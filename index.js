@@ -14,7 +14,7 @@ var configCli = require('./lib/cli/config-cli');
 var koast = exports;
 
 // TODO refactor AWS code?!
-var aws = require('./lib/aws/s3upload.js');
+var aws = require('koast-aws').s3upload; // pull in koast-aws package
 var argv = yarg.argv;
 var versionReporter = require('./lib/version-reporter');
 
