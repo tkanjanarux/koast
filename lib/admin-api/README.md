@@ -135,10 +135,37 @@ function configureApi(register) {
     mount: '/backup'
   });
 
+
   // make a promise and resolve it.
   var deferred = q.defer();
   deferred.resolve();
   return deferred.promise;
 }
+```
 
+#### Consuming this API
+
+Assume that this koast module is mounted to `/admin/api`
+
+```
+POST /admin/api/discovery
+
+// No data sent by client
+
+// response:
+{
+  s3backup: {
+    type: 'backup',
+    paths: [
+      { path: '/s3/:id', methods: { get: true } },
+      { path: '/s3', methods: { post: true } }
+    ]
+  }
+}
+```
+
+
+
+```
+POST /admin/api
 ```
