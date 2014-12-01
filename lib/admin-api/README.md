@@ -260,5 +260,16 @@ GET /admin/api/backup/s3/a3954ef0-79aa-11e4-b129-4b5fcf1201a6
 }
 ```
 
+# API Documentation
 
+####`koast.admin.getRouter(confFunc)`
+
+Get a router for the APIs registered in confFunc.
+
+
+####`koast.admin.getS3BackupRouter(path, collections, mongoUri, awsConfig)`
+
+Get a router for backing up `collections` from `mongoUri` to S3. Will be
+mounted to `path`. `awsConfig` is the same AWS config used in other koast
+modules.
 
