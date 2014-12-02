@@ -42,7 +42,7 @@
     "gulp-install": "^0.2.0",
     "gulp-util": "^3.0.1",
     "inquirer": "^0.8.0",
-    "jsdoc": "~3.3.0",
+    "jsdoc": "^3.3.0-alpha10",
     "jsonwebtoken": "^1.1.0",
     "less-middleware": "~0.1.15",
     "lodash": "^2.4.1",
