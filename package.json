@@ -43,6 +43,7 @@
     "jsdoc": "^3.3.0-alpha10",
     "jsonwebtoken": "^1.1.0",
     "koast-aws": "0.0.1",
+    "koast-router": "^1.0.0",
     "less-middleware": "~0.1.15",
     "lodash": "^2.4.1",
     "mongoose": "~3.8.6",

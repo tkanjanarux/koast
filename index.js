@@ -25,9 +25,9 @@ var versionReporter = require('./lib/version-reporter');
  *
  * @var koastRouter
  * @memberof koast
- * @see module:koast/koast-router
+ * @see npm package: koast-router
  */
-exports.koastRouter = require('./lib/koast-router');
+exports.koastRouter = require('koast-router');
 exports.makeExpressApp = appMaker.makeExpressApp;
 
 /**
