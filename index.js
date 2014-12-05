@@ -5,9 +5,9 @@
 var yarg = require('yargs');
 var appMaker = require('./lib/app/app-maker');
 var config = require('./lib/config');
-var dbUtils = require('./lib/database/db-utils');
+var dbUtils = require('koast-db-utils');
 var logger = require('./lib/log');
-var mongoMapper = require('./lib/mongo-mapper/mongo-mapper');
+var mongoMapper = require('mongo-mapper');
 var mailer = require('./lib/mailer');
 var pushNotifier = require('./lib/push-notifier/push-notifier');
 var configCli = require('./lib/cli/config-cli');
@@ -43,17 +43,11 @@ exports.config = config;
 //exports.config.getConfig = config.getConfig;
 
 /**
- * Database module TODO
- *
  * @var db
  * @memberof koast
  * @see module:koast/db
  */
 exports.db = dbUtils;
-//exports.db.createDatabaseConnections = dbUtils.createConfiguredConnections;*/
-//exports.db.getDatabaseConnectionPromise = dbUtils.getConnectionPromise;
-//exports.db.getDatabaseConnectionNow = dbUtils.getConnectionNow;
-//exports.db.getConnectionHandles = dbUtils.getConnectionHandles;
 
 /**
  * Mailer module TODO
@@ -148,7 +142,10 @@ exports.serve = function (options) {
 
   return koast.config.whenReady
     .then(configCli)
-    .then(koast.db.createConfiguredConnections)
+    .then(function() {
+      // config & log now get passed in as db (koast-db-utils) is now it's own module
+      return koast.db.createConfiguredConnections(null, null, koast.config, log);
+    })
     .then(function () {
 
       versionReporter.globalVersionWarning();
