@@ -152,11 +152,12 @@ exports.serve = function (options) {
 
       var appConfig = koast.config.getConfig('app');
       var portNumber = Number(process.env.PORT || appConfig.portNumber);
-      var app = koast.makeExpressApp();
-      app.listen(portNumber);
-      log.info('Listening on ', portNumber);
-
-      return app;
+      var appPromise = koast.makeExpressApp();
+      
+      return appPromise.then(function(app) {
+        app.listen(portNumber);
+        log.info('Listening on ', portNumber);
+      });
     })
     .then(null, function (error) {
       log.error('Error:', error);
