@@ -11,6 +11,9 @@ var mongoMapper = require('mongo-mapper');
 var mailer = require('./lib/mailer');
 var pushNotifier = require('./lib/push-notifier/push-notifier');
 var configCli = require('./lib/cli/config-cli');
+var adminApi = require('./lib/admin-api/admin-api');
+
+
 var koast = exports;
 
 // TODO refactor AWS code?!
@@ -38,9 +41,6 @@ exports.makeExpressApp = appMaker.makeExpressApp;
  * @see module:koast/config
  */
 exports.config = config;
-//exports.config.setEnvironment = config.setEnvironment;
-//exports.config.setConfigDirectory = config.setConfigDirectory;
-//exports.config.getConfig = config.getConfig;
 
 /**
  * @var db
@@ -57,7 +57,6 @@ exports.db = dbUtils;
  * @see module:koast/mailer
  */
 exports.mailer = mailer;
-//exports.mailer.makeMailer = mailer.mailerMaker;
 
 /**
  * Mongo mapper module TODO
@@ -67,7 +66,6 @@ exports.mailer = mailer;
  * @see module:koast/mongoMapper
  */
 exports.mongoMapper = mongoMapper;
-//exports.mapper.makeMongoMapper = mongoMapper.makeMapper;
 
 /**
  * AWS utils TODO
@@ -77,7 +75,6 @@ exports.mongoMapper = mongoMapper;
  * @see module:koast/aws
  */
 exports.aws = aws;
-//exports.aws.makeS3FileUploader = s3upload.makeS3FileUploader;
 
 /**
  * Push notifications module
@@ -87,6 +84,9 @@ exports.aws = aws;
  * @see module:koast/pushNotifier
  */
 exports.pushNotifier = pushNotifier;
+
+
+exports.admin = adminApi;
 
 /**
  * Gets logger
