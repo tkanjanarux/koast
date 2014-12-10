@@ -142,9 +142,10 @@ exports.serve = function (options) {
 
   return koast.config.whenReady
     .then(configCli)
-    .then(function() {
+    .then(function () {
       // config & log now get passed in as db (koast-db-utils) is now it's own module
-      return koast.db.createConfiguredConnections(null, null, koast.config, log);
+      return koast.db.createConfiguredConnections(null, null, koast.config,
+        log);
     })
     .then(function () {
 
@@ -153,8 +154,8 @@ exports.serve = function (options) {
       var appConfig = koast.config.getConfig('app');
       var portNumber = Number(process.env.PORT || appConfig.portNumber);
       var appPromise = koast.makeExpressApp();
-      
-      return appPromise.then(function(app) {
+
+      return appPromise.then(function (app) {
         app.listen(portNumber);
         log.info('Listening on ', portNumber);
       });
