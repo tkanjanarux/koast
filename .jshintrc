@@ -19,9 +19,9 @@
   "trailing": true,
   "smarttabs": true,
   "globals": {
-  "before": true,
-  "beforeEach": true,
-  "it", true,
-  "describe" : true
+    "before": true,
+    "beforeEach": true,
+    "it": true,
+    "describe" : true
   }
 }
