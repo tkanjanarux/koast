@@ -141,7 +141,11 @@ exports.serve = function (options) {
   var log = koast.getLogger();
 
   return koast.config.whenReady
-    .then(configCli)
+    .then(function(configOptions) {
+      if ('development' === process.env.NODE_ENV) {
+        configCli(configOptions);
+      }
+    })
     .then(function () {
       // config & log now get passed in as db (koast-db-utils) is now it's own module
       return koast.db.createConfiguredConnections(null, null, koast.config,
