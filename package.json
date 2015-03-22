@@ -51,7 +51,7 @@
     "koast-router": "^1.0.0",
     "less-middleware": "~0.1.15",
     "lodash": "^2.4.1",
-    "mongo-mapper": "^1.0.0",
+    "mongo-mapper": "git://github.com/tkanjanarux/mongo-mapper",
     "mongo-uri": "^0.1.2",
     "mongodb": "^1.4.23",
     "mongodump-stream": "^1.1.1",
