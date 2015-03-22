@@ -156,7 +156,7 @@ exports.serve = function (options) {
       versionReporter.globalVersionWarning();
 
       var appConfig = koast.config.getConfig('app');
-      var portNumber = Number(process.env.PORT || appConfig.portNumber);
+      var portNumber = Number(appConfig.portNumber || process.env.PORT);
       var appPromise = koast.makeExpressApp();
 
       return appPromise.then(function (app) {
